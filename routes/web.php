@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\SupplyController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +14,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+Route::any('supplies/search',  [SupplyController::class, 'search'])->name('supplies.search')->middleware('auth');
+Route::resource('supplies', SupplyController::class)->middleware('auth');
 
 Route::get('/', function () {
     return view('welcome');

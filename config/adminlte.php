@@ -298,9 +298,9 @@ return [
 
         // Sidebar items:
         [
-            'text' => 'profile',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
+            'text' => 'Insumos',
+            'url'  => 'supplies',
+            'icon' => 'fas fa-layer-group',
         ],
         [
             'text' => 'change_password',
