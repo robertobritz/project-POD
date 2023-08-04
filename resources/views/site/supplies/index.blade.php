@@ -3,7 +3,7 @@
 @section('title', 'INSUMOS')
 
 @section('content_header')
-    <h1>Insumos <a href="{{ route('supplies.create')}}" class="btn btn-dark">ADD</a></h1>
+    <h1>Insumos <a href="{{ route('supplies.import')}}" class="btn btn-dark">IMPORT</a></h1>
 @stop
 
 @section('content')
@@ -23,8 +23,9 @@
                     <th>Código</th>
                     <th>Descrição</th>
                     <th>Custo</th>
+                    <th>Empresa</th>
                     <th>Mes e Ano</th>
-                    <th width="450px">Ação</th>
+                    <th width="100px">Ação</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,13 +38,16 @@
                                 {{ $supply->description}}
                             </td>
                             <td>
-                                {{ $supply->cost}}
+                                R$ {{ number_format($supply->cost,2)}}
                             </td>
                             <td>
-                                {{ $supply->month_and_year}}
+                                {{ $supply->location}}
+                            </td>
+                            <td>
+                                {{ $supply->year_and_month}}
                             </td>
                             <td style="width=10px">
-                                <a href="{{ route('supplies.edit', $supply->id) }}" class="btn btn-info">Edit</a>
+                                <a href="{{ route('supply.edit', $supply->id) }}" class="btn btn-info">Edit</a>
                             </td>
                         </tr>
                     @endforeach

@@ -9,6 +9,6 @@ class Supply extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code', 'description', 'month_and_year'];
+    protected $fillable = ['code', 'description', 'cost', 'year_and_month', 'location'];
     
 }

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Imports\SuppliesImport;
 use App\Models\Supply;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class SupplyController extends Controller
 {
@@ -21,16 +23,9 @@ class SupplyController extends Controller
     {
         $supplies = $this->repository->latest()->paginate();
 
-        return view('site.supply.index', compact('supplies'));
+        return view('site.supplies.index', compact('supplies'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -40,20 +35,17 @@ class SupplyController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(string $id)
     {
-        //
+        if (!$supply = $this->repository->find($id)) {
+            return redirect()->back();
+        }
+
+        return view('site.supplies.edit', compact('supply'));
     }
 
     /**
@@ -61,15 +53,14 @@ class SupplyController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-    }
+        //dd($request);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        if (!$supply = $this->repository->find($id)) {
+            return redirect()->back();
+        }
+        $supply->update($request->all());
+
+        return redirect()->route('supply.index');
     }
 
     public function search(Request $request)
@@ -87,6 +78,26 @@ class SupplyController extends Controller
                             ->latest()
                             ->paginate();
 
-        return view('site.supply.index', compact('supplies', 'filters'));
+        return view('site.supplies.index', compact('supplies', 'filters'));
+    }
+
+    public function import()
+    {
+        return view('site.supplies.import-supplies');
+    }
+
+    public function suppliesUpload(Request $request)
+    {
+        
+        $file = $request->file('file');
+    
+        if ($file) {
+            Excel::import(new SuppliesImport, $file);
+    
+            return redirect()->route('supply.index')->with('success', 'Registro de Insumos adicionado!');
+        } else {
+            dd('erro');
+            return redirect()->route('supply.index')->with('error', 'Nenhum arquivo selecionado.');
+        }
     }
 }

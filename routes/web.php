@@ -16,7 +16,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::any('supplies/search',  [SupplyController::class, 'search'])->name('supplies.search')->middleware('auth');
-Route::resource('supplies', SupplyController::class)->middleware('auth');
+
+Route::get('supplies', [SupplyController::class,'index'])->name('supply.index')->middleware('auth');
+Route::get('supplies/{id}/edit', [SupplyController::class,'edit'])->name('supply.edit')->middleware('auth');
+Route::put('supplies/{id}', [SupplyController::class,'update'])->name('supply.update')->middleware('auth');
+Route::get('supplies/import-supplies',  [SupplyController::class, 'import'])->name('supplies.import')->middleware('auth');;
+Route::post('supplies/upload',  [SupplyController::class, 'suppliesUpload'])->name('supplies.upload')->middleware('auth');
 
 Route::get('/', function () {
     return view('welcome');

@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('supplies', function (Blueprint $table) {
             $table->id();
-            $table->string('code')->unique()->require();
-            $table->string('description')->unique()->require();
-            $table->integer('cost')->require();
-            $table->integer('month_and_year')->require();
+            $table->string('code')->require();
+            $table->string('description')->require();
+            $table->double('cost')->require();
+            $table->enum('location', ['matriz', 'filial'])->required(); // Usando enum para permitir apenas valores específicos
+            $table->integer('year_and_month')->require();
             $table->timestamps();
         });
     }
